@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MedusaAuthService } from '../../../core/services/medusa-auth.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-pending-approval',
@@ -17,7 +17,7 @@ import { MedusaAuthService } from '../../../core/services/medusa-auth.service';
           
           <h2 class="text-2xl font-bold text-gray-900 mb-2">Waiting for Approval</h2>
           <p class="text-gray-600 mb-6">
-            Your B2B account registration for <strong>{{ companyName() }}</strong> has been submitted and is pending admin approval.
+            Your B2B account registration for <strong>{{ authService.companyName() }}</strong> has been submitted and is pending admin approval.
           </p>
           
           <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 text-left">
@@ -42,9 +42,7 @@ import { MedusaAuthService } from '../../../core/services/medusa-auth.service';
   `,
 })
 export class PendingApprovalComponent {
-  constructor(private authService: MedusaAuthService) {}
-
-  companyName = this.authService.companyName;
+  constructor(protected authService: AuthService) {}
 
   logout(): void {
     this.authService.logout();

@@ -1,9 +1,13 @@
 import { inject } from '@angular/core';
 import { Router, CanActivateFn } from '@angular/router';
-import { MedusaAuthService } from '../services/medusa-auth.service';
+import { AuthService } from '../../features/auth/services/auth.service';
 
+/**
+ * Auth Guard: Protects routes requiring approved B2B customers
+ * Checks if user is authenticated and approved
+ */
 export const authGuard: CanActivateFn = () => {
-  const authService = inject(MedusaAuthService);
+  const authService = inject(AuthService);
   const router = inject(Router);
 
   if (authService.isAuthenticated()) {
@@ -27,8 +31,11 @@ export const authGuard: CanActivateFn = () => {
   return false;
 };
 
+/**
+ * Guest Guard: Redirects authenticated users away from auth pages
+ */
 export const guestGuard: CanActivateFn = () => {
-  const authService = inject(MedusaAuthService);
+  const authService = inject(AuthService);
   const router = inject(Router);
 
   if (authService.isAuthenticated()) {
@@ -37,6 +44,30 @@ export const guestGuard: CanActivateFn = () => {
     } else if (authService.isApproved()) {
       router.navigate(['/dashboard']);
     }
+    return false;
+  }
+
+  return true;
+};
+
+/**
+ * B2B Auth Guard: Checks company approval status
+ * This is the primary guard for B2B-specific routes
+ */
+export const b2bAuthGuard: CanActivateFn = () => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  if (!authService.isAuthenticated()) {
+    router.navigate(['/auth/login']);
+    return false;
+  }
+
+  // Check company status
+  const companyStatus = authService.companyStatus();
+  
+  if (companyStatus !== 'approved') {
+    router.navigate(['/auth/pending-approval']);
     return false;
   }
 

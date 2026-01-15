@@ -1,9 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NonNullableFormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { MedusaAuthService } from '../../../core/services/medusa-auth.service';
+import { AuthService } from '../services/auth.service';
+import { B2BRegisterInput } from '../../../core/models/auth-dto.model';
 
+/**
+ * Registration Component
+ * B2B customer registration with company information
+ * Uses NonNullableFormBuilder for strict typing
+ */
 @Component({
   selector: 'app-register',
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
@@ -14,28 +20,28 @@ export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
 
   constructor(
-    private fb: FormBuilder,
-    private authService: MedusaAuthService,
+    private fb: NonNullableFormBuilder,
+    protected authService: AuthService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
     this.registerForm = this.fb.group({
       // Personal Information
-      firstName: ['', [Validators.required, Validators.minLength(2)]],
-      lastName: ['', [Validators.required, Validators.minLength(2)]],
-      email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern(/^\+?[1-9]\d{1,14}$/)]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      confirmPassword: ['', [Validators.required]],
+      firstName: this.fb.control('', [Validators.required, Validators.minLength(2)]),
+      lastName: this.fb.control('', [Validators.required, Validators.minLength(2)]),
+      email: this.fb.control('', [Validators.required, Validators.email]),
+      phone: this.fb.control('', [Validators.required, Validators.pattern(/^\+?[1-9]\d{1,14}$/)]),
+      password: this.fb.control('', [Validators.required, Validators.minLength(8)]),
+      confirmPassword: this.fb.control('', [Validators.required]),
       
       // Company Information
-      companyName: ['', [Validators.required, Validators.minLength(2)]],
-      taxId: ['', [Validators.required]],
-      companyAddress: ['', [Validators.required]],
+      companyName: this.fb.control('', [Validators.required, Validators.minLength(2)]),
+      taxId: this.fb.control('', [Validators.required]),
+      companyAddress: this.fb.control('', [Validators.required]),
       
       // Terms
-      acceptTerms: [false, [Validators.requiredTrue]],
+      acceptTerms: this.fb.control(false, [Validators.requiredTrue]),
     }, { validators: this.passwordMatchValidator });
   }
 
@@ -56,38 +62,34 @@ export class RegisterComponent implements OnInit {
     return null;
   }
 
-  get loading() {
-    return this.authService.loading();
-  }
-
-  get error() {
-    return this.authService.error();
-  }
-
-  async onSubmit(): Promise<void> {
+  onSubmit(): void {
     if (this.registerForm.valid) {
-      const formValue = this.registerForm.value;
+      const formValue = this.registerForm.getRawValue();
       
-      const result = await this.authService.register({
+      const registerData: B2BRegisterInput = {
         email: formValue.email,
         password: formValue.password,
-        firstName: formValue.firstName,
-        lastName: formValue.lastName,
+        first_name: formValue.firstName,
+        last_name: formValue.lastName,
         phone: formValue.phone,
-        metadata: {
-          companyName: formValue.companyName,
-          taxId: formValue.taxId,
-          companyAddress: formValue.companyAddress,
-          status: 'pending',
+        company: {
+          name: formValue.companyName,
+          tax_id: formValue.taxId,
+          address: formValue.companyAddress,
+        },
+      };
+
+      this.authService.registerB2B(registerData).subscribe({
+        next: () => {
+          this.router.navigate(['/auth/pending-approval']);
+        },
+        error: (error) => {
+          console.error('Registration failed:', error);
         },
       });
-
-      if (result.success) {
-        this.router.navigate(['/auth/pending-approval']);
-      }
     } else {
-      Object.keys(this.registerForm.controls).forEach((key) => {
-        this.registerForm.get(key)?.markAsTouched();
+      Object.values(this.registerForm.controls).forEach((control) => {
+        control.markAsTouched();
       });
     }
   }

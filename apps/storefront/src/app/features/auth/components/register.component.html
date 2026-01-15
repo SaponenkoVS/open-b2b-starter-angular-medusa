@@ -6,10 +6,10 @@
     </div>
 
     <div class="bg-white py-8 px-6 shadow-lg rounded-xl border border-gray-200">
-      @if (error()) {
+      @if (authService.error()) {
         <div class="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg relative">
           <div class="flex items-center justify-between">
-            <span class="text-sm">{{ error() }}</span>
+            <span class="text-sm">{{ authService.error() }}</span>
             <button (click)="clearError()" type="button" class="text-red-700 hover:text-red-900">×</button>
           </div>
         </div>
@@ -83,8 +83,8 @@
           </label>
         </div>
 
-        <button type="submit" [disabled]="loading()" class="w-full flex justify-center py-2.5 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all">
-          @if (loading()) { Registering... } @else { Register Business Account }
+        <button type="submit" [disabled]="authService.loading()" class="w-full flex justify-center py-2.5 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all">
+          @if (authService.loading()) { Registering... } @else { Register Business Account }
         </button>
       </form>
 

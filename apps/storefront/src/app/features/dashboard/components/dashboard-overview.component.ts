@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MedusaAuthService } from '../../../core/services/medusa-auth.service';
+import { RouterModule } from '@angular/router';
+import { AuthService } from '../../../features/auth/services/auth.service';
 
 @Component({
   selector: 'app-dashboard-overview',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   template: `
     <div class="p-8">
       <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900">Welcome back, {{ authService.currentCustomer()?.firstName }}!</h1>
+        <h1 class="text-3xl font-bold text-gray-900">Welcome back, {{ authService.user()?.first_name }}!</h1>
         <p class="mt-2 text-gray-600">Here's what's happening with your account today.</p>
       </div>
 
@@ -112,5 +113,5 @@ import { MedusaAuthService } from '../../../core/services/medusa-auth.service';
   `,
 })
 export class DashboardOverviewComponent {
-  constructor(protected authService: MedusaAuthService) {}
+  constructor(protected authService: AuthService) {}
 }

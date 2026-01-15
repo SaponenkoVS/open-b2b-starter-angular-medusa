@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { MedusaAuthService } from '../../../core/services/medusa-auth.service';
+import { AuthService } from '../../../features/auth/services/auth.service';
 
 @Component({
   selector: 'app-dashboard-layout',
@@ -12,7 +12,7 @@ import { MedusaAuthService } from '../../../core/services/medusa-auth.service';
 export class DashboardLayoutComponent {
   sidebarOpen = true;
 
-  constructor(protected authService: MedusaAuthService) {}
+  constructor(protected authService: AuthService) {}
 
   toggleSidebar(): void {
     this.sidebarOpen = !this.sidebarOpen;
