@@ -1,0 +1,23 @@
+{
+  "name": "medusa-api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/medusa-api/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/medusa-api",
+        "main": "libs/medusa-api/src/index.ts",
+        "tsConfig": "libs/medusa-api/tsconfig.lib.json",
+        "assets": [
+          "libs/medusa-api/*.md"
+        ]
+      }
+    }
+  }
+}
