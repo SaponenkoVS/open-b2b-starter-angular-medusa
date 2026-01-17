@@ -1,11 +1,19 @@
-import {
-  BootstrapContext,
-  bootstrapApplication,
-} from '@angular/platform-browser';
-import { App } from './app/app';
-import { config } from './app/app.config.server';
+import '@angular/platform-server/init';
 
-const bootstrap = (context: BootstrapContext) =>
-  bootstrapApplication(App, config, context);
+import {provideServerContext} from '@analogjs/router/server';
+import type {ServerContext} from '@analogjs/router/tokens';
+import {bootstrapApplication, type BootstrapContext} from '@angular/platform-browser';
+import {renderApplication} from '@angular/platform-server';
+import {config} from './app.config.server';
+import {App} from './app/app';
 
-export default bootstrap;
+
+const bootstrap = (context: BootstrapContext) => bootstrapApplication(App, config, context);
+
+export default async function render(url: string, document: string, serverContext: ServerContext) {
+  return await renderApplication(bootstrap, {
+    document,
+    url: url,
+    platformProviders: [provideServerContext(serverContext)]
+  });
+}

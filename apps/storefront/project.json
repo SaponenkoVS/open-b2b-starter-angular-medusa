@@ -7,68 +7,49 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@angular/build:application",
+      "executor": "@analogjs/platform:vite",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/storefront",
-        "browser": "apps/storefront/src/main.ts",
-        "tsConfig": "apps/storefront/tsconfig.app.json",
-        "assets": [
-          {
-            "glob": "**/*",
-            "input": "apps/storefront/public"
-          }
-        ],
-        "styles": ["apps/storefront/src/styles.css"],
-        "server": "apps/storefront/src/main.server.ts",
-        "ssr": {
-          "entry": "apps/storefront/src/server.ts"
-        },
-        "outputMode": "server"
+        "configFile": "apps/storefront/vite.config.ts",
+        "main": "apps/storefront/src/main.ts",
+        "tsConfig": "apps/storefront/tsconfig.app.json"
       },
       "configurations": {
         "production": {
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "500kb",
-              "maximumError": "1mb"
-            },
-            {
-              "type": "anyComponentStyle",
-              "maximumWarning": "4kb",
-              "maximumError": "8kb"
-            }
-          ],
-          "outputHashing": "all"
+          "mode": "production"
         },
         "development": {
-          "optimization": false,
-          "extractLicenses": false,
-          "sourceMap": true
+          "mode": "development"
         }
       },
       "defaultConfiguration": "production"
     },
     "serve": {
-      "continuous": true,
-      "executor": "@angular/build:dev-server",
+      "executor": "@analogjs/platform:vite-dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "storefront:build",
+        "port": 4200
+      },
       "configurations": {
+        "development": {
+          "buildTarget": "storefront:build:development",
+          "hmr": true
+        },
         "production": {
           "buildTarget": "storefront:build:production"
-        },
-        "development": {
-          "buildTarget": "storefront:build:development"
         }
-      },
-      "defaultConfiguration": "development"
+      }
     },
     "lint": {
       "executor": "@nx/eslint:lint"
     },
     "test": {
-      "executor": "@angular/build:unit-test",
-      "options": {}
+      "executor": "@nx/vite:test",
+      "options": {
+        "configFile": "apps/storefront/vite.config.ts"
+      }
     },
     "serve-static": {
       "continuous": true,
@@ -76,7 +57,7 @@
       "options": {
         "buildTarget": "storefront:build",
         "port": 4200,
-        "staticFilePath": "dist/apps/storefront/browser",
+        "staticFilePath": "dist/apps/storefront/client",
         "spa": true
       }
     }

@@ -1,13 +1,16 @@
 {
   "extends": "../../tsconfig.base.json",
   "files": [],
-  "include": [],
   "references": [
     {
       "path": "./tsconfig.app.json"
     }
   ],
   "compilerOptions": {
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
     "esModuleInterop": true
-  }
+  },
+  "include": ["src/**/*.ts", "medusa-config.ts"]
 }
