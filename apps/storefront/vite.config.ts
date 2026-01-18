@@ -19,6 +19,8 @@ export default defineConfig(({mode}) => {
         '@angular/cdk/**',
         'ngx-scrollbar/**',
         'ng-signal-forms/**',
+        '@medusajs/js-sdk',
+        '@medusajs/types',
       ],
     },
 

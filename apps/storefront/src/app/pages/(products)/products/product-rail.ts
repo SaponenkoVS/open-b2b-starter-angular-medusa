@@ -1,20 +1,7 @@
 import {Component, input} from "@angular/core";
 import {RouterLink} from "@angular/router";
 import ProductPreviewComponent from "./product-preview";
-
-interface Product {
-  id: string;
-  title: string;
-  handle: string;
-  thumbnail: string;
-  variants: any[]
-}
-
-interface Collection {
-  title: string;
-  handle: string;
-  products: Product[]
-}
+import {StoreCollection} from "@medusajs/types";
 
 @Component({
   selector: 'app-product-rail',
@@ -48,6 +35,6 @@ interface Collection {
   `
 })
 export class ProductRailComponent {
-  collection = input.required<Collection>();
+  collection = input.required<StoreCollection>();
   region = input.required<any>();
 }

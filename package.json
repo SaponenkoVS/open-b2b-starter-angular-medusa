@@ -13,7 +13,6 @@
     "db:migrate": "cd apps/backend && medusa db:migrate",
     "db:generate": "cd apps/backend &&  medusa db:generate",
     "db:create": "cd apps/backend &&  medusa db:create",
-    "generate:types": "nx run medusa-api:generate-types",
     "db:seed": "cd apps/backend && medusa exec ./src/scripts/seed.ts"
   },
   "dependencies": {
@@ -64,7 +63,6 @@
     "@nx/playwright": "^22.3.3",
     "@nx/vite": "^22.3.3",
     "@nx/workspace": "^22.0.0",
-    "@openapitools/openapi-generator-cli": "^2.27.0",
     "@playwright/test": "^1.57.0",
     "@tailwindcss/postcss": "^4.1.18",
     "@tailwindcss/vite": "^4.1.18",
