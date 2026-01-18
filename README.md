@@ -40,12 +40,12 @@ An enterprise-grade, open-source B2B Storefront starter kit. Built with the cutt
 │   │   │   │   │   │   └── register.page.ts
 │   │   │   │   │   ├── (dashboard)/     # Route group with shared Sidebar Layout
 │   │   │   │   │   │   ├── (dashboard).page.ts  # MASTER LAYOUT (Sidebar + Content)
-│   │   │   │   │   │   ├── index.page.ts        # /dashboard (Overview/Stats)
+│   │   │   │   │   │   ├── checkout.page.ts        # /dashboard (Overview/Stats)
 │   │   │   │   │   │   ├── orders/
-│   │   │   │   │   │   │   ├── index.page.ts    # /orders (Order List)
+│   │   │   │   │   │   │   ├── checkout.page.ts    # /orders (Order List)
 │   │   │   │   │   │   │   └── [id].page.ts     # /orders/:id (Dynamic Details)
 │   │   │   │   │   │   ├── products/
-│   │   │   │   │   │   │   ├── index.page.ts    # /products (B2B Grid/Catalog)
+│   │   │   │   │   │   │   ├── checkout.page.ts    # /products (B2B Grid/Catalog)
 │   │   │   │   │   │   │   └── [id].page.ts     # /products/:id (PDP)
 │   │   │   │   │   │   └── organization/    # B2B Organization Features
 │   │   │   │   │   │       ├── members.page.ts  # Team / Employee Management

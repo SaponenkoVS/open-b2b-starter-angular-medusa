@@ -3,6 +3,8 @@
   "compilerOptions": {
     "allowJs": true,
     "outDir": "../../dist/out-tsc",
+    "moduleResolution": "bundler",
+    "target": "esnext",
     "sourceMap": false,
     "module": "esnext",
     "strict": true,

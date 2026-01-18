@@ -4,12 +4,14 @@ import analog from '@analogjs/platform';
 import {defineConfig, splitVendorChunkPlugin} from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import * as path from 'node:path';
+// @ts-ignore
+import tailwindcss from "@tailwindcss/vite";
 
 // https://vitejs.dev/config/
 export default defineConfig(({mode}) => {
   return {
     root: __dirname,
-    publicDir: 'src/public',
+    publicDir: 'public',
 
     ssr: {
       noExternal: [
@@ -44,6 +46,7 @@ export default defineConfig(({mode}) => {
     },
 
     plugins: [
+      tailwindcss(),
       tsconfigPaths(),
       analog({
         content: {

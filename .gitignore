@@ -49,3 +49,6 @@ __screenshots__/
 .env
 .env.local
 .env.*.local
+
+# Medusa files
+/apps/backend/.medusa

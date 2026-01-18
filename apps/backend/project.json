@@ -7,31 +7,31 @@
     "build": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx @medusajs/medusa-cli build",
+        "command": "medusa build",
         "cwd": "apps/backend"
       }
     },
     "serve": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx @medusajs/medusa-cli dev",
+        "command": "medusa develop --verbose",
         "cwd": "apps/backend"
       }
     },
     "db-migrate": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx @medusajs/medusa-cli db:migrate",
+        "command": "medusa db:migrate",
         "cwd": "apps/backend"
       }
     },
     "db-generate": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx @medusajs/medusa-cli db:generate",
+        "command": "medusa db:generate",
         "cwd": "apps/backend"
       }
-    }
+    },
   },
   "tags": []
 }

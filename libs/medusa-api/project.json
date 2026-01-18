@@ -18,6 +18,18 @@
           "libs/medusa-api/*.md"
         ]
       }
+    },
+    "generate-types": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "medusa types generate --output libs/medusa-api/src/types/medusa-types.ts"
+      }
+    },
+    "generate-api": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx @openapitools/openapi-generator-cli generate -i http://localhost:9000/openapi/store -g typescript-angular -o libs/medusa-api/src/lib/generated --additional-properties=providedInRoot=true,strictPropertyInitialization=false"
+      }
     }
   }
 }
