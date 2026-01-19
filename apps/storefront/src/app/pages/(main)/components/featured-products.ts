@@ -1,11 +1,11 @@
-import {Component, inject, input, resource} from "@angular/core";
-import {ProductRailComponent} from "../../(products)/products/product-rail";
+import {Component, effect, inject, input, resource} from "@angular/core";
+import ProductRailComponent from "../../(products)/products/product-rail";
 import {CollectionService} from "../../../data-source/collection.service";
 
 
 @Component({
   selector: 'app-featured-products',
-  imports: [ProductRailComponent, ProductRailComponent],
+  imports: [ProductRailComponent],
   providers: [CollectionService],
   template: `
     @if (collectionsResource.isLoading()) {
@@ -34,6 +34,21 @@ export default class FeaturedProductsComponent {
   countryCode = input<string>('us');
   collectionService = inject(CollectionService);
   collectionsResource = resource({
-    loader: () => this.collectionService.collectionList(3)
+    loader: () => this.collectionService.collectionList({ limit: 3 , title: 'Featured', fields: '*products' }),
   });
+
+  constructor() {
+    effect(() => {
+      const data = this.collectionsResource.value();
+      const error = this.collectionsResource.error();
+
+      if (data) {
+        console.log('Данные загружены:', data);
+      }
+
+      if (error) {
+        console.error('Ошибка ресурса:', error);
+      }
+    });
+  }
 }

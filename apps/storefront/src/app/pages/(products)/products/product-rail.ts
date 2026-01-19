@@ -34,7 +34,7 @@ import {StoreCollection} from "@medusajs/types";
     </div>
   `
 })
-export class ProductRailComponent {
+export default class ProductRailComponent {
   collection = input.required<StoreCollection>();
   region = input.required<any>();
 }
