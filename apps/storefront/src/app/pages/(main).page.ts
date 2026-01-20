@@ -1,8 +1,6 @@
 import type {RouteMeta} from '@analogjs/router';
-import {Component, inject, signal} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {provideIcons} from '@ng-icons/core';
-import {lucideArrowRight, lucideStar} from '@ng-icons/lucide';
 import {HeroComponent} from "./(main)/components/hero";
 import FeaturedProductsComponent from "./(main)/components/featured-products";
 import {metaWith} from "../shared/meta/meta.util";
@@ -22,18 +20,16 @@ export const routeMeta: RouteMeta = {
     HeroComponent,
     FeaturedProductsComponent
   ],
-  providers: [provideIcons({lucideStar, lucideArrowRight})],
   host: {
-    class: 'block px-2',
+    class: 'block',
   },
   template: `
-    <div class="flex flex-col gap-y-2 m-2">
-      <app-hero />
-      <app-featured-products countryCode={countryCode} />
+    <div class="flex flex-col">
+      <app-hero></app-hero>
+      <app-featured-products countryCode={countryCode}></app-featured-products>
     </div>
   `,
 })
 export default class MainPage {
   protected readonly _route = inject(ActivatedRoute);
-  protected readonly _activeTab = signal<string>(this._route.snapshot.fragment || 'examples');
 }

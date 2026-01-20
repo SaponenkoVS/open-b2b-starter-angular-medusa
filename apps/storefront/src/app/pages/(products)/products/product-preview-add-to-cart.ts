@@ -4,7 +4,6 @@ import {CartEventBusService} from "../../../core/cart-event-bus.service";
 
 @Component({
   selector: 'app-preview-add-to-cart',
-  standalone: true,
   template: `
     <button
       (click)="handleAddToCart($event)"
@@ -24,10 +23,9 @@ import {CartEventBusService} from "../../../core/cart-event-bus.service";
   `
 })
 export default class PreviewAddToCartComponent {
+  private eventBus = inject(CartEventBusService);
   product = input.required<HttpTypes.StoreProduct>();
   region = input.required<HttpTypes.StoreRegion>();
-
-  private eventBus = inject(CartEventBusService);
   isAdding = signal(false);
 
   async handleAddToCart(event: Event) {
